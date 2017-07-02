@@ -1,0 +1,164 @@
+#
+#  Textplore: A text adventure game engine.
+#
+#  Copyright (C) 2014  Jading Tsunami
+#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+#
+# Comments start with a "#"
+[GLOBAL]
+[ENDGLOBAL]
+
+[LEVEL]
+setting "airlock open" false
+setting "aux power on" false
+
+[ROOM]
+name "South Airlock"
+longmessage "It is very dark. You are alone, staring down a long hallway. There are streams of bluish moonlight streaming in from small windows to your right and a low, constant hum; almost a rumble. On the left are rows of heavy metal panels sealed in by thick rivets.\n\nThe walls and ceiling are a light gray shimmering metal.\n\nBehind you is a round door with a small, round glass disc in the center. It looks very heavy. There is a placard above it."
+shortmessage "South Airlock"
+
+# viewable directions
+viewable "north" "forward" "It is a long, dark hallway."
+viewable "ahead" noalias "The hallway extends into darkness."
+viewable "left" "west" "The walls are cold and unremarkable."
+viewable "right" "east" "There are small windows that look out to the stars."
+viewable "south" "back" "There is a large door."
+viewable "down" "d" "It is an unremarkable carpet, uncomfortable and ugly. It is a dark, drab blue."
+viewable "up" "u" "The ceiling is lined with tubular fluorescent lights, but they are off."
+
+# viewables
+viewable "moonlight" noalias "Eerie moonlight streams across the floor."
+viewable "window" noalias "You see only distant stars out the window."
+viewable "wall" "walls" "The walls are very cold. The metal looks like steel."
+viewable "ceiling" "up" "The ceiling is lined with tubular florescent lights, but they are off."
+viewable "panel" "panels" "The panels appear quite sturdy."
+viewable "rivet" "rivets" "The rivets are just that: rivets."
+viewable "glass" "door" "The glass is muddy. You can't see inside."
+viewable "floor" "carpet" "It is an unremarkable carpet, uncomfortable and ugly. It is a dark, drab blue."
+viewable "placard" "sign" "The placard reads: SOUTH AIRLOCK."
+
+# special entity actions
+entity "panel" "panels" nomessage action "push" condition always true set_prompt "The panels won't budge." false do_nothing
+entity "rivet" "rivets" nomessage action "push" condition always true set_prompt "The rivets won't budge." false do_nothing
+entity "rivet" "rivets" nomessage action "twist" condition always true set_prompt "The rivets won't budge." false do_nothing
+entity "rivet" "rivets" nomessage action "turn" condition always true set_prompt "The rivets won't budge." false do_nothing
+
+# special actions
+entity "noise" "rumble" nomessage action "listen to" condition always true set_prompt "The sound has an odd occasional whir to it." false do_nothing
+
+# exits
+exit "door" to "South Inner Airlock" condition level_setting_set "airlock open" true exit_room "South Inner Airlock" false set_prompt "The door won't budge."
+exit "round door" to "South Inner Airlock" condition level_setting_set "airlock open" true exit_room "South Inner Airlock" false set_prompt "The door won't budge."
+
+# exit actions
+entity "forward" "ahead" nomessage action "walk" condition always true exit_room "Airlock Hallway" false do_nothing
+entity "forward" "ahead" nomessage action "go" condition always true exit_room "Airlock Hallway" false do_nothing
+entity "hallway" "hall" nomessage action "walk down" condition always true exit_room "Airlock Hallway" false do_nothing
+entity "hallway" "hall" nomessage action "go down" condition always true exit_room "Airlock Hallway" false do_nothing
+[ENDROOM]
+
+[ROOM]
+name "Airlock Hallway"
+longmessage "The long hallway stretches into the darkness, where there are no windows and no light.\n\nThe sound seems louder here."
+shortmessage "Dark hallway."
+
+entity "right" noalias nomessage action "look" condition always true set_prompt "There are only rows of tiny windows letting in pale blue light." false do_nothing
+
+entity "left" noalias nomessage action "look" condition always true set_prompt "There is a switch in a small red casing on the wall. A sign above it reads: ENABLE EMERGENCY AUXILIARY POWER." false do_nothing
+
+entity "lever" "switch" nomessage action "push" condition level_setting_set "aux power on" true do_nothing false set_prompt "There is a terrible rumble, and small bubble lights at the end of the hallway illuminate." stopiftrue condition always true set_level_setting "aux power on" false do_nothing stopiffalse condition always true set_room_message "The long hallway stretches in front of you. Auxiliary power lights run along the floor, guiding you ahead and around a distant corner." false do_nothing
+entity "lever" "switch" nomessage action "flip" condition level_setting_set "aux power on" true do_nothing false set_prompt "There is a terrible rumble, and small bubble lights at the end of the hallway illuminate." stopiftrue condition always true set_level_setting "aux power on" false do_nothing stopiffalse condition always true set_room_message "The long hallway stretches in front of you. Auxiliary power lights run along the floor, guiding you ahead and around a distant corner." false do_nothing
+entity "lever" "switch" nomessage action "pull" condition level_setting_set "aux power on" true do_nothing false set_prompt "There is a terrible rumble, and small bubble lights at the end of the hallway illuminate." stopiftrue condition always true set_level_setting "aux power on" false do_nothing stopiffalse condition always true set_room_message "The long hallway stretches in front of you. Auxiliary power lights run along the floor, guiding you ahead and around a distant corner." false do_nothing
+
+entity "sound" "noise" nomessage action "listen to" condition always true set_prompt "The sound is coming from your left." false do_nothing
+
+exit "back" to "South Airlock" nocondition
+
+exit "forward" to "East Wing Hallway" condition level_setting_set "aux power on" true exit_room "East Wing Hallway" false set_prompt "It's too dark to continue."
+[ENDROOM]
+
+[ROOM]
+name "East Wing Hallway"
+longmessage "You are at the end of the hallway. The floor is dimly illuminated by strands of emergency lights that lead you around the corner. In the distance, you can't make out any features of the hallway except that it seems to turn another corner far away. There are no windows here.\n\nOn your left is a door with a sign above it that has been worn bare. The words are no longer legible."
+shortmessage "East Wing Hallway."
+
+entity "right" noalias nomessage action "look" condition always true set_prompt "It is too dark to see much, but it just looks like a wall." false do_nothing
+
+entity "down" noalias nomessage action "look" condition always true set_prompt "It's still just carpet down here." false do_nothing
+
+entity "up" noalias nomessage action "look" condition always true set_prompt "There are more tubular lights, but they are off." false do_nothing
+
+entity "left" noalias nomessage action "look" condition always true set_prompt "There is a door. A sign above it is no longer readable." false do_nothing
+
+exit "door" to "Bio Lab" nocondition
+
+
+exit "back" to "Airlock Hallway" nocondition
+[ENDROOM]
+
+[ROOM]
+name "Bio Lab"
+longmessage "You are in a small room with a laboratory desk in the center. There are vials of strange liquids everywhere. On the walls, there are eerie glows of multicolored light from the emergency lighting casting through the vials.\n\nThere appears to be an experiment in progress in the center of the room, hastily abandoned. The laboratory notebooks are open on the desk."
+shortmessage "Biological Lab."
+
+entity "notebook" "lab notebook" nomessage action "read" condition always true exit_room "Bio Lab Notebook" false do_nothing
+entity "notebook" "lab notebook" nomessage action "look" condition always true exit_room "Bio Lab Notebook" false do_nothing
+entity "notebook" "lab notebook" nomessage action "look at" condition always true exit_room "Bio Lab Notebook" false do_nothing
+
+item "vial" "medicine" "There is a strange vial of medicine on the counter. The label reads \"ANAP - DOSAGE: 14 mcg\"" action "take" nocondition
+
+entity "vial" "vials of liquid" nomessage action "look" condition always true set_prompt "They are filled with various liquids of strange colors." false do_nothing
+entity "vials" "liquids" nomessage action "look" condition always true set_prompt "They are filled with various liquids of strange colors." false do_nothing
+
+entity "vial" "liquid" nomessage action "drink" condition always true exit_room "Death by Medicine" false do_nothing
+
+entity "wall" "walls" nomessage action "look at" condition always true set_prompt "The walls glow with strange colors, as if cast by colored lights from decorations." false do_nothing
+entity "wall" "walls" nomessage action "look" condition always true set_prompt "The walls glow with strange colors, as if cast by colored lights from decorations." false do_nothing
+
+entity "left" noalias nomessage action "look" condition always true set_prompt "There is a glass cabinet filled with canisters. It's locked and can't be opened." false do_nothing
+
+entity "right" noalias nomessage action "look" condition always true set_prompt "There are shelves of books. None of them look interesting." false do_nothing
+
+entity "book" "books" nomessage action "look" condition always true set_prompt "There are various books, but they look uninteresting." false do_nothing
+entity "book" "books" nomessage action "look at" condition always true set_prompt "There are various books, but they look uninteresting." false do_nothing
+
+entity "book" "books" nomessage action "pick up" condition always true set_prompt "You flip a few pages but aren't familiar with the subject matter. You put the book back." false do_nothing
+entity "book" "books" nomessage action "read" condition always true set_prompt "You flip a few pages but aren't familiar with the subject matter. You put the book back." false do_nothing
+
+entity "desk" "lab desk" nomessage action "look at" condition always true set_prompt "There are papers strewn on the desk and more vials of liquid." false do_nothing
+entity "desk" "lab desk" nomessage action "look" condition always true set_prompt "There are papers strewn on the desk and more vials of liquid." false do_nothing
+
+exit "back" to "East Wing Hallway" nocondition
+[ENDROOM]
+
+[ROOM]
+name "Bio Lab Notebook"
+longmessage "EXPERIMENT 0696\n\n   DR. RICHARD ALSTOTT\n   DR. MARIE ALSTOTT\n\n0600: 18 mcg Anaprovamyde administered.\n0633: Subject drowsy. Complains of headache.\n0641: Headache worsens. Convulsions begin.\n0709: Subject dies. Dosage still too high.\n\n10 mcg dosage from EXPERIMENT 0515 seems closer to optimal. Subject expected to have survived initial transition. Still did not survive secondary shockwave effect.\nExpecting next subject to begin EXPERIMENT 0697 tomorrow.\n\nType \"go back\" to stop reading the notebook."
+shortmessage "Laboratory Notebook of Doctors Richard Alstott and Marie Alstott."
+
+exit "back" to "Bio Lab" nocondition
+
+[ENDROOM]
+
+[ROOM]
+name "Death by Medicine"
+longmessage "You drink the liquid and feel strange.\n\nYou collapse suddenly and start to convulse.\n\nYou are dead.\n\nPress Ctrl-C to exit."
+shortmessage "Somehow you survived! Alas, only to die again."
+
+[ENDROOM]
+
+
+[ENDLEVEL]
