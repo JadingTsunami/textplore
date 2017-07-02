@@ -66,7 +66,7 @@ To read this specification, apply the following rules:
 * `{}`: Monospace font surrounded by curly brackets (`{}`) containing elements separated by pipe characters (`|`) indicate you should select the desired element and replace this block with that element.
     * Example: `setting "<setting-name>" {true|false}`
     * Could become: `setting "generator powered up" false`
-* `!{}`: Monospace font surrounded by curly brackets (`{}`) prepended with a bang symbol (`!`) indicate optional items.
+* `~{}`: Monospace font surrounded by curly brackets (`{}`) prepended with a tilde symbol (`~`) indicate optional items.
 * `_text_`: Monospace font surrounded by underlines (`_`) indicate blocks that are replaced by a separate element specification.
 * `...`: Ellipses indicate a section that may be repeated to any length.
 
@@ -174,7 +174,7 @@ _Spec_: `condition what-to-check do-if-true do-if-false`
 
 
 ```
-condition _check_ _continuance_
+condition _check_ ~{_continuance_}
 ```
 
 ###### Checks
@@ -218,6 +218,19 @@ Do format:
 ```
 
 Note: Do not specify a target if `do_nothing` is used.
+
+###### continuance
+
+A continuance allows any number of checks to be strung together to form more complex logic chains.
+
+There are two continuance options:
+
+* `stopiftrue`: Stop evaluating conditions if the previous expression evaluated true.
+* `stopiffalse`: Stop evaluating conditions if the previous expression evaluated false.
+
+```
+{stopiftrue|stopiffalse}
+```
 
 #### exit
 
