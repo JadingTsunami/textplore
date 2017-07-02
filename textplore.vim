@@ -1,7 +1,7 @@
 "
 "  Textplore: A text adventure game engine.
 "
-"  Copyright (C) 2014  Jading Tsunami
+"  Copyright (C) 2014-2017  Jading Tsunami
 "
 "  This program is free software: you can redistribute it and/or modify
 "  it under the terms of the GNU General Public License as published by
@@ -44,6 +44,7 @@ syn keyword tag global_setting_set
 syn keyword tag global_setting_clear
 syn keyword tag inventory_has
 syn keyword tag inventory_has_not
+syn keyword tag always
 
 syn keyword label display
 syn keyword label set_room_message

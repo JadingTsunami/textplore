@@ -1,7 +1,7 @@
 /*
  *  Textplore: A text adventure game engine.
  *
- *  Copyright (C) 2014  Jading Tsunami
+ *  Copyright (C) 2014-2017  Jading Tsunami
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
