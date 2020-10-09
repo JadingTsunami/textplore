@@ -34,7 +34,10 @@ static char* readFileLine( char* line, int n, FILE* file ) {
     while( !feof( file ) && !ferror( file ) && ret == NULL ) {
         ret = trim( fgets( line, n, file ) );
         if( ret != NULL && *ret == '\0' ) ret = NULL;
-        if( ret && ret[0] == '#' ) continue;
+        if( ret && ret[0] == '#' ) {
+            ret = NULL;
+            continue;
+        }
     }
     return ret;
 }
